@@ -54,6 +54,7 @@
                             <th sort-by="type__name">Type</th>
                             <th sort-by="created_by__username">Created by</th>
                             <th>On run</th>
+                            <th>Location</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +72,7 @@
                                 <td>${row.status}</td>
                                 <td>${row.product_type}</td>
                                 <td>${row.created_by}</td>
+                                <td>${row.location}</td>
                                 <td><ui-boolean source.bind="row.on_run"></ui-boolean></td>
                             </tr>
                             <tr if.bind="row.toggled">

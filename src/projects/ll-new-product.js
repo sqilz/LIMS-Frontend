@@ -1,19 +1,22 @@
 import { inject, bindable, bindingMode, NewInstance } from 'aurelia-framework';
 import { ProjectApi } from './api';
 import { InventoryApi } from '../inventory/api';
+import { SharedApi } from '../shared/api';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { ValidationRules, ValidationController, validateTrigger } from 'aurelia-validation';
 import { UiValidationRenderer } from '../components/semantic-ui/ui-validation-renderer';
 
-@inject(ProjectApi, InventoryApi, EventAggregator, NewInstance.of(ValidationController))
+
+@inject(ProjectApi, InventoryApi, SharedApi, EventAggregator, NewInstance.of(ValidationController))
 export class LlNewProduct {
     @bindable source;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) toggle;
 
-    constructor(projectApi, inventoryApi, eventAggregator, validationController) {
+    constructor(projectApi, inventoryApi, sharedApi, eventAggregator, validationController) {
         this.api = projectApi;
         this.inventoryApi = inventoryApi;
         this.ea = eventAggregator;
+        this.sharedApi = sharedApi;
 
         this.validator = validationController;
         this.validator.validateTrigger = validateTrigger.changeOrBlur;
@@ -24,6 +27,7 @@ export class LlNewProduct {
         this.validationRules = ValidationRules
             .ensure('name').required()
             .ensure('status').required()
+            .ensure('location').required()
             .ensure('product_type').required()
 
         this.validationRules
@@ -35,6 +39,10 @@ export class LlNewProduct {
 
         this.inventoryApi.itemTypes().then(data => {
             this.productTypes = data;
+        });
+
+        this.sharedApi.locations().then(data => {
+          this.locations = data;
         });
     }
 

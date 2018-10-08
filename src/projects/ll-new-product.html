@@ -21,6 +21,15 @@
                         default-text.bind="product.product_type">
                 </ui-autocomplete>
             </ui-field>
+          <div class="ui stackable grid no gutter">
+            <ui-field class="column" label="Location" required>
+              <ui-autocomplete from="locations"
+                               value.bind="product.location & validate"
+                               store-value="code"
+                               display-value="display_name">
+              </ui-autocomplete>
+            </ui-field>
+          </div>
             <ll-template-hook name="create-product" source.bind="product"></ll-template-hook>
         </div>
         <div class="ui attached message" if.bind="error">
